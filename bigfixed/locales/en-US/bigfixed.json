@@ -1,0 +1,11 @@
+{
+    "bigfixed": {
+        "label": {
+            "nodelabel": "Big Fixed",
+            "name": "Name",
+            "description": "Data format",
+            "trim": "Trim each value ?",
+            "ignore": "Silently ignore non matching" 
+        }    
+    }
+}

@@ -1,0 +1,119 @@
+<!--
+  Copyright 2013, 2014 IBM Corp.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!--
+  Copyright 2013, 2016 IBM Corp.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="bigfixed">
+     <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="bigfixed.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]bigfixed.label.name">
+    </div> 
+
+    <div class="form-row" style="position: relative; margin-bottom: 0px;">
+        <label for="node-input-description"><i class="fa fa-file-code-o"></i> <span data-i18n="bigfixed.label.description"></span></label>
+        <input type="hidden" id="node-input-description" autofocus="autofocus">
+    </div>
+    <div class="form-row node-text-editor-row">
+        <div style="height: 250px;" class="node-text-editor" id="node-input-description-editor" ></div>
+    </div>
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-trim" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-trim" style="width: 70%;"><span data-i18n="bigfixed.label.trim"></span></label>
+    </div>      
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-ignore" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-ignore" style="width: 70%;"><span data-i18n="bigfixed.label.ignore"></span></label>
+    </div>       
+</script>
+
+<script type="text/x-red" data-help-name="bigfixed">
+<p>This node's purpose is to parse fixed length data. Description is provided by configuration or the <code>msg.description</code> property.</p>
+<p>Format is a JSON array for column description. Each column is described by either a <code>start</code>, <code>length</code>, <code>end</code> value (all starting by 1)</code>, a <code>header</code></p>
+<p>Different combinations are allowed as only <code>start</code> or <code>start + length</code> or <code>start + end</code></p>
+<p>If no <code>header</code> is provider, the value is bound to a default named property <code>Col #</code></p>
+<p>The <code>trim</code> flag is allowed for each column description or as a global parameter</p>
+<p>It's also possible to give a <code>map</code> translation table as for example <code>"map": { "O": true, "N": false }</code></p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('bigfixed',{
+        color:"#0099cc",
+        category: 'function',
+        defaults: {
+            name: {value:""},
+            trim: {value: false},
+            syntax: {value:"javascript"},
+            description: {value:"This is the description: {{payload}} !"},
+            ignore: {value: false}
+        },
+        inputs:1,
+        outputs:2,
+        icon: "hash.png",
+        label: function() {
+            return this.name||"Big Fixed";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            var that = this;
+
+            if (!this.syntax) {
+                this.syntax = 'javascript';
+                $("#node-input-syntax").val(this.syntax);
+            }
+
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-description-editor',
+                mode: 'ace/mode/javascript',
+                value: $("#node-input-description").val()
+            });
+            this.editor.focus();
+        },
+        oneditsave: function() {
+            $("#node-input-description").val(this.editor.getValue())
+            delete this.editor;
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div:not(.node-text-editor-row)");
+            var height = $("#dialog-form").height();
+            for (var i=0;i<rows.size();i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form>div.node-text-editor-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            $(".node-text-editor").css("height",height+"px");
+            this.editor.resize();
+        }
+    });
+</script>
