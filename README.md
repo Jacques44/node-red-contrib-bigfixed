@@ -1,6 +1,6 @@
 # node-red-contrib-bigfixed
 
-"Big Exec" is a Big Node for node-red. It's used to execute command
+"Big Fixed" is a Big Node for node-red. It's used to parse fixed length data
 
 ![alt tag](https://cloud.githubusercontent.com/assets/18165555/15263277/e8009d92-1968-11e6-8c49-8b77cd6f33e2.png)
 
