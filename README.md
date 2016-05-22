@@ -36,7 +36,7 @@ All functionnalities are built under a library named `biglib` and all `Big Nodes
 
 This node has 3 properties:
 
-* A **data format**, required, used to parse incoming data. The format is an array of json document as for example:
+* A **data format**, required, used to parse incoming data. The format is an array of json document
 * A **Trim each value** flag used to trim spaces from each element of each line
 * A **Silently ignore non matching** flag which allows non matching data without throwning errors
 
