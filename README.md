@@ -33,11 +33,20 @@ All functionnalities are built under a library named `biglib` and all `Big Nodes
 ## Capabilities
 
 * This node's purpose is to parse fixed length data. Description is provided by configuration or the **msg.description** property.
-* Format is a JSON array for column description. Each column is described by either a **start**, **length**, **end** value (all starting by 1)**, a **header**
-* Different combinations are allowed as only **start** or **start + length** or **start + end**
-* If no **header** is provider, the value is bound to a default named property **Col #**
+
+This node has 3 properties:
+
+* A **data format**, required, used to parse incoming data. The format is an array of json document as for example:
+* A **Trim each value** flag used to trim spaces from each element of each line
+* A **Silently ignore non matching** flag which allows non matching data without throwning errors
+
+It is possible to send these configuration options using an incoming message setting respectively `msg.description`, `msg.trim` and `msg.ignore`
+
+Format is a JSON array for column description. 
+* Each column is described by either a **start**, **length**, **end** value (all starting by 1). Different combinations are allowed as only **start** or **start + length** or **start + end**
+* A **header** which is the property name. If no **header** is provided, the value is bound to a default named property **Col #** (Col1, Col2, ...)
 * The **trim** flag is allowed for each column description or as a global parameter
-* It's also possible to give a **map** translation table as for example ```json map": { "O": true, "N": false }```
+* It's also possible to give a **map** translation table as for example ```json "map": { "O": true, "N": false }```
 
 ## Example flow files
 
@@ -48,35 +57,6 @@ Try pasting in the flow file below that shows the node behaviour
   ```
 
   ![alt tag](https://cloud.githubusercontent.com/assets/18165555/15455962/c7044bce-2062-11e6-82a0-56b7b1874a28.png)
-
-## Usage
-
-This node has 3 properties:
-
-* A **data format**, required, used to parse incoming data. The format is an array of json document as for example:
-
-```json
-[
-    { "start": 1, "length": 10, "trim": true, "header": "H1" },
-    { "start": 13, "length": 3, "header": "D2" },
-    { "header": "LAST", "trim": true }
-]
-```json
-
-The properties are the following:
-
-> * `header` to set the property name. If not set, properties will be `Col1`, `Col2` and so on
-> * `start` to set the first column (starting by 1)
-> * `end` to set the last column (starting by 1)
-> * `length` to compute the end value
-> * `trim` to trim spaces 
-> * `re` a regex to capture data
-> * `map` a mapping json key/value object for mapping. For example ```json{ "O": true, "N": false }```
-
-* A **Trim each value** flag used to trim spaces from each element of each line
-* A **Silently ignore non matching** flag which allows non matching data without throwning errors
-
-It is possible to send these configuration options using an incoming message setting respectively `msg.description`, `msg.trim` and `msg.ignore`
 
 ## Author
 
