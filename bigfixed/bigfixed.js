@@ -18,11 +18,9 @@
  *
  * /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
  *
- *  Big Nodes principles:
+ *  Big Nodes familly, see Big Lib
  *
- *  #1 can handle big data
- *  #2 send start/end messages
- *  #3 tell what they are doing
+ *  https://www.npmjs.com/package/node-red-biglib
  *
  *  Any issues? https://github.com/Jacques44
  *
